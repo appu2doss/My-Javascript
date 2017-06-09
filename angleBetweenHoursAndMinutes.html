@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Title of the document</title>
+<script type="text/javascript">
+	
+	function getAngle(time) {
+	    time = ConvertTimeformatTo24Hours(time);
+	    var hoursMinArr = time.split(":");
+	    var minAngle = 360*(hoursMinArr[1]/60);
+	    var hourAngle = 360*(hoursMinArr[0]/12)+(360/12)*(hoursMinArr[1]/60);
+	    if(minAngle > hourAngle) {
+	        return minAngle - hourAngle;
+	    } else {
+	        return hourAngle - minAngle;
+	    }
+	}
+	// Time format AM/PM
+	function timeformat(timeVal) {
+	  var timeString = timeVal;
+	  var prefixZeroForHour = timeString.split(":");
+	  if(prefixZeroForHour[0].length < 2) {
+	    timeString = 0 + timeString;
+	  }
+	  var H = +timeString.substr(0, 2);
+	  var h = (H % 12) || 12;
+	  var ampm = H < 12 ? "AM" : "PM";
+	  timeString = h +":"+ timeString.substr(2, 3) + " " + ampm;
+	  return timeString;
+	}
+
+	// Prefix Zero
+	function prefixZero(val) {
+	  if (val < 10) {
+	    var val = 0 + "" + val;
+	  }
+	  return val;
+	}
+	            
+	function ConvertTimeformatTo24Hours(str) {
+	    var checkFormat = str.match(/\s?([AaPp][Mm]?)$/g);
+	    if(!checkFormat) {
+	        str = timeformat(str);
+	    } 
+	    var hours = Number(str.match(/^(\d+)/)[1]);
+	    var minutes = Number(str.match(/:(\d+)/)[1]);
+	    var AMPM = str.match(/\s?([AaPp][Mm]?)$/)[1];
+	    var pm = ['P', 'p', 'PM', 'pM', 'pm', 'Pm'];
+	    var am = ['A', 'a', 'AM', 'aM', 'am', 'Am'];
+	    var sHours = hours.toString();
+	    var sMinutes = minutes.toString();
+	    if (hours < 10) sHours = "0" + sHours;
+	    if (minutes < 10) sMinutes = "0" + sMinutes;
+	    return (sHours + ":" + sMinutes);
+	}     
+	console.log(getAngle('20:00'));
+
+</script>
+</head>
+
+<body>
+</body>
+
+</html>
